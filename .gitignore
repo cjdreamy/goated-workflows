@@ -1,2 +1,4 @@
 reason.md
 .github/workflows/sample.yaml
+node_modules/
+.env
