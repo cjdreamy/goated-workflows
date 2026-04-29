@@ -3,6 +3,16 @@ const jwt = require('jsonwebtoken');
 const dotenv = require('dotenv');
 
 dotenv.config();
+const express = require('express');
+const dotenv = require('dotenv');
+
+dotenv.config();
+const app = express();
+
+app.use(express.json());
+app.get('/', (req, res) => {
+    res.send('Welcome to the Streak API!');
+});
 
 
 // A "Real-World" Backend Problem: Secure Token Generation
@@ -38,3 +48,6 @@ const verifyRequest = (req, res, next) => {
 };
 
 module.exports = { generateToken, verifyRequest };
+app.listen(3000, () => {
+    console.log('Server is running on port 3000');
+});
