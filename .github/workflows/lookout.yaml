@@ -1,0 +1,39 @@
+name: 🛡️ Node.js lookout
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Security Audit
+        run: |
+          echo "###  Security Audit Report" >> report.md
+          npm audit --audit-level=high || echo "⚠️ High-risk vulnerabilities found!" >> report.md
+
+      - name: Code Quality & Complexity
+        run: |
+          echo "### Quality Report" >> report.md
+          npx eslint . --max-warnings 0 || echo "❌ Linting issues detected" >> report.md
+
+      - name: Post Report to PR
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message-path: report.md
