@@ -1,0 +1,36 @@
+name: The Sexton Security & Quality Audit
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name:  Set up Python (or Node/Go/etc)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name:  Security Scan (Safety)
+        run: |
+          pip install safety
+          safety check || echo "Vulnerabilities found, but we keep going for the report!"
+
+      - name: Complexity Check (Radon)
+        run: |
+          pip install radon
+          echo "### Code Complexity Report" >> report.md
+          radon cc . -s >> report.md
+
+      - name:  Post Report to PR
+        if: github.event_name == 'pull_request'
+        uses: mshick/add-pr-comment@v2
+        with:
+          message-path: report.md
