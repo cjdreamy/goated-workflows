@@ -2,9 +2,9 @@ name: The Sexton Security & Quality Audit
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 jobs:
   audit: 
