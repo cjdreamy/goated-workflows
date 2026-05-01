@@ -1,4 +1,4 @@
-![Sexton Status](https://github.com/cjdreamy/goated-workflows/actions/workflows/gatekeeper.yml/badge.svg)   
+![Sexton Status](https://github.com/cjdreamy/goated-workflows/actions/workflows/sexton.yaml/badge.svg)   
 
 # lookout 
 Stop shipping "hope-based" code. 🛡️
